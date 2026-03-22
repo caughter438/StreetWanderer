@@ -1,2 +1,2 @@
-# GeoWanderer
+# StreetWanderer
 Initial release
