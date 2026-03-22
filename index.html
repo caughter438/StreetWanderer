@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<!-- saved from url=(0046)file:///C:/Users/gesuk/Downloads/wanderer.html -->
-<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GeoWanderer — Global Street Explorer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com/">
-<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="./GeoWanderer — Global Street Explorer_files/css2" rel="stylesheet">
+<title>StreetWanderer — Global Street Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:#f7f5f2; --white:#fff; --panel:#fdfcfb;
@@ -253,6 +253,11 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
 }
 #site-footer span{font-size:10px;color:var(--text-light);letter-spacing:.03em;white-space:nowrap;}
 #site-footer span+span::before{content:'·';margin-right:16px;color:var(--border);}
+
+/* unit toggle */
+.unit-toggle{display:flex;background:var(--bg);border-radius:6px;padding:2px;gap:2px;}
+.unit-btn{background:transparent;border:none;border-radius:4px;padding:3px 8px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;color:var(--text-light);cursor:pointer;transition:all .15s;letter-spacing:.04em;}
+.unit-btn.active{background:var(--white);color:var(--accent);box-shadow:var(--shadow-sm);}
 </style>
 </head>
 <body>
@@ -267,9 +272,9 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
     </div>
   </div>
   <div class="header-stats">
-    <div class="stat-pill"><span class="icon">👣</span><span class="lbl">Steps</span><span class="val" id="s-steps">1</span></div>
-    <div class="stat-pill"><span class="icon">📏</span><span class="lbl">km</span><span class="val" id="s-km">0.0</span></div>
-    <div class="stat-pill"><span class="icon">📍</span><span class="lbl">Places</span><span class="val" id="s-places">1</span></div>
+    <div class="stat-pill"><span class="icon">👣</span><span class="lbl">Steps</span><span class="val" id="s-steps">0</span></div>
+    <div class="stat-pill"><span class="icon">📏</span><span class="lbl" id="s-km-lbl">km</span><span class="val" id="s-km">0.0</span></div>
+    <div class="stat-pill"><span class="icon">📍</span><span class="lbl">Places</span><span class="val" id="s-places">0</span></div>
   </div>
 </div>
 
@@ -279,14 +284,14 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
   <!-- MAP -->
   <div id="map-wrap">
     <!-- Loading -->
-    <div id="loading-veil" class="out">
+    <div id="loading-veil">
       <div class="loading-icon">🌏</div>
       <div class="loading-title">Finding your spot…</div>
-      <div class="loading-sub" id="loading-sub">Checking Street View…</div>
+      <div class="loading-sub" id="loading-sub">Searching for Street View</div>
     </div>
 
     <!-- Main iframe -->
-    <iframe id="street-frame" src="./GeoWanderer — Global Street Explorer_files/maps.html" allowfullscreen=""></iframe>
+    <iframe id="street-frame" src="about:blank" allowfullscreen></iframe>
 
     <!-- Pick-start overlay -->
     <div id="pick-overlay">
@@ -310,21 +315,21 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
 
       <!-- Preview -->
       <div id="pick-preview">
-        <iframe id="pick-preview-frame" src="./GeoWanderer — Global Street Explorer_files/saved_resource.html"></iframe>
+        <iframe id="pick-preview-frame" src="about:blank"></iframe>
         <div class="pick-preview-label" id="pick-preview-label">Preview</div>
       </div>
 
       <!-- Actions -->
       <div class="pick-actions">
-        <button id="btn-set-start" onclick="confirmPickedStart()" disabled="">📍 Start here</button>
+        <button id="btn-set-start" onclick="confirmPickedStart()" disabled>📍 Start here</button>
         <button id="btn-cancel-pick" onclick="closePick()">Cancel</button>
       </div>
     </div>
 
     <div id="retry-notice">🔄 No Street View found — trying another location…</div>
     <div id="coord-badge">
-      <div id="cb-lat">LAT 36.84075</div>
-      <div id="cb-lng">LNG -98.44235</div>
+      <div id="cb-lat">LAT —</div>
+      <div id="cb-lng">LNG —</div>
     </div>
   </div>
 
@@ -337,10 +342,10 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
         <div class="card-title">Starting Point</div>
 
         <div class="start-mode-tabs">
-          <button class="sm-tab active" data-sm="random" onclick="setStartMode(&#39;random&#39;)">
+          <button class="sm-tab active" data-sm="random" onclick="setStartMode('random')">
             <span class="ti">🎲</span><span class="tl">Random</span>
           </button>
-          <button class="sm-tab" data-sm="custom" onclick="setStartMode(&#39;custom&#39;)">
+          <button class="sm-tab" data-sm="custom" onclick="setStartMode('custom')">
             <span class="ti">📍</span><span class="tl">Custom</span>
           </button>
         </div>
@@ -374,10 +379,10 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
       <div class="card">
         <div class="card-title">View Mode</div>
         <div class="mode-tabs">
-          <button class="mode-tab active" data-mode="street" onclick="setViewMode(&#39;street&#39;)"><span class="ti">🚶</span><span class="tl">Street</span></button>
-          <button class="mode-tab" data-mode="satellite" onclick="setViewMode(&#39;satellite&#39;)"><span class="ti">🛰️</span><span class="tl">Aerial</span></button>
-          <button class="mode-tab" data-mode="map" onclick="setViewMode(&#39;map&#39;)"><span class="ti">🗺️</span><span class="tl">Map</span></button>
-          <button class="mode-tab" data-mode="hybrid" onclick="setViewMode(&#39;hybrid&#39;)"><span class="ti">🌐</span><span class="tl">Hybrid</span></button>
+          <button class="mode-tab active" data-mode="street" onclick="setViewMode('street')"><span class="ti">🚶</span><span class="tl">Street</span></button>
+          <button class="mode-tab" data-mode="satellite" onclick="setViewMode('satellite')"><span class="ti">🛰️</span><span class="tl">Aerial</span></button>
+          <button class="mode-tab" data-mode="map" onclick="setViewMode('map')"><span class="ti">🗺️</span><span class="tl">Map</span></button>
+          <button class="mode-tab" data-mode="hybrid" onclick="setViewMode('hybrid')"><span class="ti">🌐</span><span class="tl">Hybrid</span></button>
         </div>
         <div id="sv-note"><span>✅</span><span>Street mode picks locations in areas with known Street View coverage.</span></div>
       </div>
@@ -386,12 +391,12 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
       <div class="card" id="region-card">
         <div class="card-title">Region</div>
         <div class="region-grid">
-          <button class="region-btn active" data-r="world" onclick="setRegion(&#39;world&#39;)">🌍 World</button>
-          <button class="region-btn" data-r="japan" onclick="setRegion(&#39;japan&#39;)">🇯🇵 Japan</button>
-          <button class="region-btn" data-r="usa" onclick="setRegion(&#39;usa&#39;)">🇺🇸 USA</button>
-          <button class="region-btn" data-r="europe" onclick="setRegion(&#39;europe&#39;)">🇪🇺 Europe</button>
-          <button class="region-btn" data-r="eastasia" onclick="setRegion(&#39;eastasia&#39;)">🌏 East Asia</button>
-          <button class="region-btn" data-r="oceania" onclick="setRegion(&#39;oceania&#39;)">🇦🇺 Oceania</button>
+          <button class="region-btn active" data-r="world"    onclick="setRegion('world')">🌍 World</button>
+          <button class="region-btn"        data-r="japan"    onclick="setRegion('japan')">🇯🇵 Japan</button>
+          <button class="region-btn"        data-r="usa"      onclick="setRegion('usa')">🇺🇸 USA</button>
+          <button class="region-btn"        data-r="europe"   onclick="setRegion('europe')">🇪🇺 Europe</button>
+          <button class="region-btn"        data-r="eastasia" onclick="setRegion('eastasia')">🌏 East Asia</button>
+          <button class="region-btn"        data-r="oceania"  onclick="setRegion('oceania')">🇦🇺 Oceania</button>
         </div>
       </div>
 
@@ -402,24 +407,31 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
           <div class="cmp-disk">
             <span class="cmp-lbl cn">N</span><span class="cmp-lbl cs">S</span>
             <span class="cmp-lbl cw">W</span><span class="cmp-lbl ce">E</span>
-            <div class="needle" id="needle" style="transform: translateX(-50%) translateY(-100%) rotate(127.558deg);"></div>
+            <div class="needle" id="needle"></div>
             <div class="needle-dot"></div>
           </div>
           <div class="cmp-info">
-            <div class="cmp-deg" id="hdg-deg">128°</div>
-            <div class="cmp-dir" id="hdg-dir">SE</div>
+            <div class="cmp-deg" id="hdg-deg">—°</div>
+            <div class="cmp-dir" id="hdg-dir">Waiting…</div>
           </div>
         </div>
       </div>
 
       <!-- Step Distance -->
       <div class="card">
-        <div class="card-title">Step Distance</div>
-        <div class="sl-row">
+        <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0;">
+          <span>Step Distance</span>
+          <div class="unit-toggle">
+            <button class="unit-btn active" id="unit-km" onclick="setUnit('km')">km</button>
+            <button class="unit-btn" id="unit-mi" onclick="setUnit('mi')">mi</button>
+          </div>
+        </div>
+        <div class="sl-row" style="margin-top:9px;">
           <span class="sl-lbl">Per walk</span>
           <span class="sl-val" id="step-val">2.0 km</span>
         </div>
-        <input type="range" id="step-slider" min="0.5" max="20" step="0.5" value="2" oninput="stepKm=parseFloat(this.value);document.getElementById(&#39;step-val&#39;).textContent=parseFloat(this.value).toFixed(1)+&#39; km&#39;">
+        <input type="range" id="step-slider" min="0.1" max="20" step="0.1" value="2"
+               oninput="onStepSlider(this.value)">
       </div>
 
       <!-- Walk button -->
@@ -436,7 +448,8 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
             <span class="sl-lbl">Interval</span>
             <span class="sl-val" id="intv-val">6 s</span>
           </div>
-          <input type="range" id="intv-slider" min="3" max="20" step="1" value="6" oninput="autoSec=parseInt(this.value);document.getElementById(&#39;intv-val&#39;).textContent=this.value+&#39; s&#39;;restartAuto()">
+          <input type="range" id="intv-slider" min="3" max="20" step="1" value="6"
+                 oninput="autoSec=parseInt(this.value);document.getElementById('intv-val').textContent=this.value+' s';restartAuto()">
         </div>
       </div>
 
@@ -445,7 +458,7 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
     <!-- Log -->
     <div id="log-area">
       <div class="log-hd">Recent Walks</div>
-      <div id="log-list"><div class="log-item"><span class="log-n">#1</span><span class="log-dot street"></span><div class="log-txt"><div class="log-place">🇺🇸 USA</div><div class="log-coords">36.8407, -98.4424</div></div></div></div>
+      <div id="log-list"></div>
     </div>
   </div>
 </div>
@@ -476,7 +489,7 @@ const ZONES = {
 };
 
 // ── State ─────────────────────────────────────────────────────────────────────
-let stepKm=2, viewMode='street', region='world', startMode='random';
+let stepKm=2, viewMode='street', region='world', startMode='random', unit='km';
 let lat=35.68, lng=139.77, hdg=Math.random()*360;
 let steps=0, totalKm=0, places=new Set();
 let autoTimer=null, autoSec=6, busy=false, retries=0;
@@ -753,7 +766,7 @@ async function attempt(){
   places.add(place);
 
   document.getElementById('s-steps').textContent=steps;
-  document.getElementById('s-km').textContent=totalKm.toFixed(1);
+  document.getElementById('s-km').textContent=unit==='km'?totalKm.toFixed(1):(totalKm*MI).toFixed(1);
   document.getElementById('s-places').textContent=places.size;
   document.getElementById('cb-lat').textContent='LAT '+lat.toFixed(5);
   document.getElementById('cb-lng').textContent='LNG '+lng.toFixed(5);
@@ -797,10 +810,43 @@ function toggleAuto(){
 }
 function restartAuto(){if(!autoTimer)return;clearInterval(autoTimer);autoTimer=setInterval(doWalk,autoSec*1000);}
 
+// ── Unit (km / mi) ────────────────────────────────────────────────────────────
+const MI=0.621371;
+function setUnit(u){
+  unit=u;
+  document.getElementById('unit-km').classList.toggle('active',u==='km');
+  document.getElementById('unit-mi').classList.toggle('active',u==='mi');
+  document.getElementById('s-km-lbl').textContent=u;
+  // update slider: convert current stepKm to display unit, keep internal km value
+  updateStepDisplay();
+  // update header distance
+  document.getElementById('s-km').textContent=unit==='km'?totalKm.toFixed(1):(totalKm*MI).toFixed(1);
+}
+function onStepSlider(v){
+  // slider value is always in the current display unit
+  const displayVal=parseFloat(v);
+  stepKm=unit==='km'?displayVal:displayVal/MI;
+  updateStepDisplay();
+}
+function updateStepDisplay(){
+  const slider=document.getElementById('step-slider');
+  const displayKm=unit==='km'?stepKm:stepKm*MI;
+  // format: <0.5 show 1 decimal (e.g. 0.1), >=0.5 show 1 decimal
+  const fmt=displayKm<1?displayKm.toFixed(1):displayKm.toFixed(1);
+  document.getElementById('step-val').textContent=fmt+' '+unit;
+  // update slider range limits for current unit
+  if(unit==='mi'){
+    slider.min=0.1; slider.max=(20*MI).toFixed(1); slider.step=0.1;
+    slider.value=(stepKm*MI).toFixed(1);
+  } else {
+    slider.min=0.1; slider.max=20; slider.step=0.1;
+    slider.value=stepKm.toFixed(1);
+  }
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 showLoading('Ready to explore…');
 setTimeout(()=>doWalk(),200);
 </script>
-
-
-</body></html>
+</body>
+</html>
