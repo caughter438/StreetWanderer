@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0052)file:///C:/Users/gesuk/Downloads/streetwanderer.html -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StreetWanderer — Global Street Explorer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./StreetWanderer — Global Street Explorer_files/css2" rel="stylesheet">
 <style>
 :root {
   --bg:#f7f5f2; --white:#fff; --panel:#fdfcfb;
@@ -272,9 +272,9 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
     </div>
   </div>
   <div class="header-stats">
-    <div class="stat-pill"><span class="icon">👣</span><span class="lbl">Steps</span><span class="val" id="s-steps">0</span></div>
+    <div class="stat-pill"><span class="icon">👣</span><span class="lbl">Steps</span><span class="val" id="s-steps">1</span></div>
     <div class="stat-pill"><span class="icon">📏</span><span class="lbl" id="s-km-lbl">km</span><span class="val" id="s-km">0.0</span></div>
-    <div class="stat-pill"><span class="icon">📍</span><span class="lbl">Places</span><span class="val" id="s-places">0</span></div>
+    <div class="stat-pill"><span class="icon">📍</span><span class="lbl">Places</span><span class="val" id="s-places">1</span></div>
   </div>
 </div>
 
@@ -284,14 +284,14 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
   <!-- MAP -->
   <div id="map-wrap">
     <!-- Loading -->
-    <div id="loading-veil">
+    <div id="loading-veil" class="out">
       <div class="loading-icon">🌏</div>
       <div class="loading-title">Finding your spot…</div>
-      <div class="loading-sub" id="loading-sub">Searching for Street View</div>
+      <div class="loading-sub" id="loading-sub">Checking Street View…</div>
     </div>
 
     <!-- Main iframe -->
-    <iframe id="street-frame" src="about:blank" allowfullscreen></iframe>
+    <iframe id="street-frame" src="./StreetWanderer — Global Street Explorer_files/maps.html" allowfullscreen=""></iframe>
 
     <!-- Pick-start overlay -->
     <div id="pick-overlay">
@@ -315,21 +315,21 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
 
       <!-- Preview -->
       <div id="pick-preview">
-        <iframe id="pick-preview-frame" src="about:blank"></iframe>
+        <iframe id="pick-preview-frame" src="./StreetWanderer — Global Street Explorer_files/saved_resource(1).html"></iframe>
         <div class="pick-preview-label" id="pick-preview-label">Preview</div>
       </div>
 
       <!-- Actions -->
       <div class="pick-actions">
-        <button id="btn-set-start" onclick="confirmPickedStart()" disabled>📍 Start here</button>
+        <button id="btn-set-start" onclick="confirmPickedStart()" disabled="">📍 Start here</button>
         <button id="btn-cancel-pick" onclick="closePick()">Cancel</button>
       </div>
     </div>
 
     <div id="retry-notice">🔄 No Street View found — trying another location…</div>
     <div id="coord-badge">
-      <div id="cb-lat">LAT —</div>
-      <div id="cb-lng">LNG —</div>
+      <div id="cb-lat">LAT -46.58873</div>
+      <div id="cb-lng">LNG 169.24359</div>
     </div>
   </div>
 
@@ -342,10 +342,10 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
         <div class="card-title">Starting Point</div>
 
         <div class="start-mode-tabs">
-          <button class="sm-tab active" data-sm="random" onclick="setStartMode('random')">
+          <button class="sm-tab active" data-sm="random" onclick="setStartMode(&#39;random&#39;)">
             <span class="ti">🎲</span><span class="tl">Random</span>
           </button>
-          <button class="sm-tab" data-sm="custom" onclick="setStartMode('custom')">
+          <button class="sm-tab" data-sm="custom" onclick="setStartMode(&#39;custom&#39;)">
             <span class="ti">📍</span><span class="tl">Custom</span>
           </button>
         </div>
@@ -379,10 +379,10 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
       <div class="card">
         <div class="card-title">View Mode</div>
         <div class="mode-tabs">
-          <button class="mode-tab active" data-mode="street" onclick="setViewMode('street')"><span class="ti">🚶</span><span class="tl">Street</span></button>
-          <button class="mode-tab" data-mode="satellite" onclick="setViewMode('satellite')"><span class="ti">🛰️</span><span class="tl">Aerial</span></button>
-          <button class="mode-tab" data-mode="map" onclick="setViewMode('map')"><span class="ti">🗺️</span><span class="tl">Map</span></button>
-          <button class="mode-tab" data-mode="hybrid" onclick="setViewMode('hybrid')"><span class="ti">🌐</span><span class="tl">Hybrid</span></button>
+          <button class="mode-tab active" data-mode="street" onclick="setViewMode(&#39;street&#39;)"><span class="ti">🚶</span><span class="tl">Street</span></button>
+          <button class="mode-tab" data-mode="satellite" onclick="setViewMode(&#39;satellite&#39;)"><span class="ti">🛰️</span><span class="tl">Aerial</span></button>
+          <button class="mode-tab" data-mode="map" onclick="setViewMode(&#39;map&#39;)"><span class="ti">🗺️</span><span class="tl">Map</span></button>
+          <button class="mode-tab" data-mode="hybrid" onclick="setViewMode(&#39;hybrid&#39;)"><span class="ti">🌐</span><span class="tl">Hybrid</span></button>
         </div>
         <div id="sv-note"><span>✅</span><span>Street mode picks locations in areas with known Street View coverage.</span></div>
       </div>
@@ -391,12 +391,12 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
       <div class="card" id="region-card">
         <div class="card-title">Region</div>
         <div class="region-grid">
-          <button class="region-btn active" data-r="world"    onclick="setRegion('world')">🌍 World</button>
-          <button class="region-btn"        data-r="japan"    onclick="setRegion('japan')">🇯🇵 Japan</button>
-          <button class="region-btn"        data-r="usa"      onclick="setRegion('usa')">🇺🇸 USA</button>
-          <button class="region-btn"        data-r="europe"   onclick="setRegion('europe')">🇪🇺 Europe</button>
-          <button class="region-btn"        data-r="eastasia" onclick="setRegion('eastasia')">🌏 East Asia</button>
-          <button class="region-btn"        data-r="oceania"  onclick="setRegion('oceania')">🇦🇺 Oceania</button>
+          <button class="region-btn active" data-r="world" onclick="setRegion(&#39;world&#39;)">🌍 World</button>
+          <button class="region-btn" data-r="japan" onclick="setRegion(&#39;japan&#39;)">🇯🇵 Japan</button>
+          <button class="region-btn" data-r="usa" onclick="setRegion(&#39;usa&#39;)">🇺🇸 USA</button>
+          <button class="region-btn" data-r="europe" onclick="setRegion(&#39;europe&#39;)">🇪🇺 Europe</button>
+          <button class="region-btn" data-r="eastasia" onclick="setRegion(&#39;eastasia&#39;)">🌏 East Asia</button>
+          <button class="region-btn" data-r="oceania" onclick="setRegion(&#39;oceania&#39;)">🇦🇺 Oceania</button>
         </div>
       </div>
 
@@ -407,12 +407,12 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
           <div class="cmp-disk">
             <span class="cmp-lbl cn">N</span><span class="cmp-lbl cs">S</span>
             <span class="cmp-lbl cw">W</span><span class="cmp-lbl ce">E</span>
-            <div class="needle" id="needle"></div>
+            <div class="needle" id="needle" style="transform: translateX(-50%) translateY(-100%) rotate(321.814deg);"></div>
             <div class="needle-dot"></div>
           </div>
           <div class="cmp-info">
-            <div class="cmp-deg" id="hdg-deg">—°</div>
-            <div class="cmp-dir" id="hdg-dir">Waiting…</div>
+            <div class="cmp-deg" id="hdg-deg">322°</div>
+            <div class="cmp-dir" id="hdg-dir">NW</div>
           </div>
         </div>
       </div>
@@ -422,16 +422,15 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
         <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0;">
           <span>Step Distance</span>
           <div class="unit-toggle">
-            <button class="unit-btn active" id="unit-km" onclick="setUnit('km')">km</button>
-            <button class="unit-btn" id="unit-mi" onclick="setUnit('mi')">mi</button>
+            <button class="unit-btn active" id="unit-km" onclick="setUnit(&#39;km&#39;)">km</button>
+            <button class="unit-btn" id="unit-mi" onclick="setUnit(&#39;mi&#39;)">mi</button>
           </div>
         </div>
         <div class="sl-row" style="margin-top:9px;">
           <span class="sl-lbl">Per walk</span>
           <span class="sl-val" id="step-val">2.0 km</span>
         </div>
-        <input type="range" id="step-slider" min="0.1" max="20" step="0.1" value="2"
-               oninput="onStepSlider(this.value)">
+        <input type="range" id="step-slider" min="0.1" max="20" step="0.1" value="2" oninput="onStepSlider(this.value)">
       </div>
 
       <!-- Walk button -->
@@ -448,8 +447,7 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
             <span class="sl-lbl">Interval</span>
             <span class="sl-val" id="intv-val">6 s</span>
           </div>
-          <input type="range" id="intv-slider" min="3" max="20" step="1" value="6"
-                 oninput="autoSec=parseInt(this.value);document.getElementById('intv-val').textContent=this.value+' s';restartAuto()">
+          <input type="range" id="intv-slider" min="3" max="20" step="1" value="6" oninput="autoSec=parseInt(this.value);document.getElementById(&#39;intv-val&#39;).textContent=this.value+&#39; s&#39;;restartAuto()">
         </div>
       </div>
 
@@ -458,7 +456,7 @@ input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 0 4px var(--accent-
     <!-- Log -->
     <div id="log-area">
       <div class="log-hd">Recent Walks</div>
-      <div id="log-list"></div>
+      <div id="log-list"><div class="log-item"><span class="log-n">#1</span><span class="log-dot street"></span><div class="log-txt"><div class="log-place">🇳🇿 NZ</div><div class="log-coords">-46.5887, 169.2436</div></div></div></div>
     </div>
   </div>
 </div>
@@ -848,5 +846,6 @@ function updateStepDisplay(){
 showLoading('Ready to explore…');
 setTimeout(()=>doWalk(),200);
 </script>
-</body>
-</html>
+
+
+</body></html>
